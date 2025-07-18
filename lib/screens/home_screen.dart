@@ -3,6 +3,13 @@ import 'package:lottie/lottie.dart';
 import '../services/weather_service.dart';
 import '../models/weather_model.dart';
 import '../utils/weather_lottie.dart';
+import 'city_selector_screen.dart';
+import 'settings_screen.dart';
+import '../l10n/app_localizations.dart';
+
+
+
+
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -36,7 +43,11 @@ class _HomeScreenState extends State<HomeScreen> {
       });
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Ошибка: $e')),
+        SnackBar(
+          content: Text(
+            AppLocalizations.of(context)!.error(e.toString()),
+          ),
+        ),
       );
     } finally {
       setState(() {
@@ -53,40 +64,57 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
+  void _openCitySelector() async {
+    final selectedCity = await Navigator.push<String>(
+      context,
+      MaterialPageRoute(builder: (context) => const CitySelectorScreen()),
+    );
+
+    if (selectedCity != null && selectedCity.isNotEmpty) {
+      _fetchWeather(selectedCity);
+    }
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Погода в $_city')),
+      appBar: AppBar(
+        title: GestureDetector(
+          onTap: _openCitySelector,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(Icons.location_on),
+              const SizedBox(width: 8),
+              Text(_city),
+              const Icon(Icons.arrow_drop_down),
+            ],
+          ),
+        ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.settings),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const SettingsScreen()),
+              );
+            },
+          ),
+        ],
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    controller: _controller,
-                    decoration: const InputDecoration(
-                      labelText: 'Введите город',
-                      border: OutlineInputBorder(),
-                    ),
-                    onSubmitted: (_) => _onSearch(),
-                  ),
-                ),
-                const SizedBox(width: 8),
-                ElevatedButton(
-                  onPressed: _isLoading ? null : _onSearch,
-                  child: const Text('Поиск'),
-                ),
-              ],
-            ),
-            const SizedBox(height: 24),
             Expanded(
               child: Center(
                 child: _isLoading
                     ? const CircularProgressIndicator()
                     : _weather == null
-                    ? const Text("Введите город и нажмите 'Поиск'")
+                    ? Text(AppLocalizations.of(context)!.inputPrompt)
                     : Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -97,7 +125,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     const SizedBox(height: 16),
                     Text(
-                      '${_weather!.temperature.toStringAsFixed(1)}°C',
+                      '${_weather!.temperature.toStringAsFixed(1)}${AppLocalizations.of(context)!.temperatureUnit}',
                       style: const TextStyle(fontSize: 48),
                     ),
                     const SizedBox(height: 16),

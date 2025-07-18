@@ -1,0 +1,23 @@
+{
+  "@@locale": "en",
+  "title": "Weather App",
+  "settings": "Settings",
+  "city": "City",
+  "temperatureInC": "Temperature in Celsius",
+  "language": "Language",
+  "enterCity": "Enter city",
+  "search": "Search",
+  "error": "Error: {error}",
+  "@error": {
+    "description": "Error message with error details",
+    "placeholders": {
+      "error": {}
+    }
+  },
+  "inputPrompt": "Please select a city by tapping on the city name above",
+  "temperatureUnit": "°C",
+  "citySelection": "City Selection",
+  "select": "Select",
+  "detectLocation": "Detect by location"
+
+}
