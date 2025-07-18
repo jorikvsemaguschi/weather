@@ -27,6 +27,26 @@ class WeatherService {
     }
   }
 
+  Future<List<DailyWeather>> fetch7DayForecast(String cityName) async {
+    final coords = await _getCoordinates(cityName);
+    final lat = coords['lat'];
+    final lon = coords['lon'];
+
+    final url = Uri.parse(
+      '$_oneCallUrl?lat=$lat&lon=$lon&appid=$_apiKey&units=metric',
+    );
+
+    final response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      final List<dynamic> dailyList = data['daily'];
+      return dailyList.map((json) => DailyWeather.fromJson(json)).toList();
+    } else {
+      throw Exception('Ошибка получения прогноза: ${response.statusCode}');
+    }
+  }
+
   // Получаем погоду по координатам
   Future<Weather> fetchWeather(String cityName) async {
     final coords = await _getCoordinates(cityName);
