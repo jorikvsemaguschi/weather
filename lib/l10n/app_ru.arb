@@ -7,16 +7,17 @@
   "language": "Язык",
   "enterCity": "Введите город",
   "search": "Поиск",
-  "error": "Ошибка: {error}",
-  "@error": {
-    "description": "Ошибка с деталями",
-    "placeholders": {
-      "error": {}
-    }
-  },
   "inputPrompt": "Пожалуйста, выберите город, нажав на название города выше",
   "temperatureUnit": "°C",
   "citySelection": "Выбор города",
   "select": "Выбрать",
-  "detectLocation": "Определить по геолокации"
+  "detectLocation": "Определить по геолокации",
+  "error": "Ошибка",
+  "enterCityPrompt": "Введите город и нажмите 'Поиск'",
+  "sevenDayForecast": "Прогноз на 7 дней",
+  "humidity": "Влажность",
+  "pressure": "Давление",
+  "wind": "Ветер",
+  "cloudiness": "Облачность",
+  "feelsLike": "Ощущается как"
 }

@@ -140,12 +140,6 @@ abstract class AppLocalizations {
   /// **'Search'**
   String get search;
 
-  /// Error message with error details
-  ///
-  /// In en, this message translates to:
-  /// **'Error: {error}'**
-  String error(Object error);
-
   /// No description provided for @inputPrompt.
   ///
   /// In en, this message translates to:
@@ -175,6 +169,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Detect by location'**
   String get detectLocation;
+
+  /// No description provided for @error.
+  ///
+  /// In en, this message translates to:
+  /// **'Error'**
+  String get error;
+
+  /// No description provided for @enterCityPrompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter city and press \'Search\''**
+  String get enterCityPrompt;
+
+  /// No description provided for @sevenDayForecast.
+  ///
+  /// In en, this message translates to:
+  /// **'7-day Forecast'**
+  String get sevenDayForecast;
+
+  /// No description provided for @humidity.
+  ///
+  /// In en, this message translates to:
+  /// **'Humidity'**
+  String get humidity;
+
+  /// No description provided for @pressure.
+  ///
+  /// In en, this message translates to:
+  /// **'Pressure'**
+  String get pressure;
+
+  /// No description provided for @wind.
+  ///
+  /// In en, this message translates to:
+  /// **'Wind'**
+  String get wind;
+
+  /// No description provided for @cloudiness.
+  ///
+  /// In en, this message translates to:
+  /// **'Cloudiness'**
+  String get cloudiness;
+
+  /// No description provided for @feelsLike.
+  ///
+  /// In en, this message translates to:
+  /// **'Feels like'**
+  String get feelsLike;
 }
 
 class _AppLocalizationsDelegate

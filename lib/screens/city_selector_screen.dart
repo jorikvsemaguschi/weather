@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../l10n/app_localizations.dart';
+import '../services/location_service.dart'; // <-- добавь импорт
 
 class CitySelectorScreen extends StatefulWidget {
   const CitySelectorScreen({super.key});
@@ -15,6 +16,17 @@ class _CitySelectorScreenState extends State<CitySelectorScreen> {
     final city = _controller.text.trim();
     if (city.isNotEmpty) {
       Navigator.pop(context, city);
+    }
+  }
+
+  Future<void> _detectLocation() async {
+    final city = await LocationService().getCurrentCity();
+    if (city != null) {
+      Navigator.pop(context, city);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Unable to detect location")),
+      );
     }
   }
 
@@ -43,9 +55,7 @@ class _CitySelectorScreenState extends State<CitySelectorScreen> {
             ),
             const SizedBox(height: 16),
             ElevatedButton.icon(
-              onPressed: () {
-                Navigator.pop(context, "Текущий город"); // позже заменить
-              },
+              onPressed: _detectLocation,
               icon: const Icon(Icons.my_location),
               label: Text(localizations.detectLocation),
             ),

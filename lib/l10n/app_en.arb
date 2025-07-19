@@ -7,17 +7,18 @@
   "language": "Language",
   "enterCity": "Enter city",
   "search": "Search",
-  "error": "Error: {error}",
-  "@error": {
-    "description": "Error message with error details",
-    "placeholders": {
-      "error": {}
-    }
-  },
   "inputPrompt": "Please select a city by tapping on the city name above",
   "temperatureUnit": "°C",
   "citySelection": "City Selection",
   "select": "Select",
-  "detectLocation": "Detect by location"
-
+  "detectLocation": "Detect by location",
+  "error": "Error",
+  "enterCityPrompt": "Enter city and press 'Search'",
+  "sevenDayForecast": "7-day Forecast",
+  "humidity": "Humidity",
+  "pressure": "Pressure",
+  "wind": "Wind",
+  "cloudiness": "Cloudiness",
+  "feelsLike": "Feels like"
 }
+
