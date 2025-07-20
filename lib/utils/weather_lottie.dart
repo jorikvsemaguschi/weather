@@ -1,3 +1,4 @@
+// Возвращает путь к Lottie-анимации по основному погодному условию
 String getLottieAnimation(String weatherMain) {
   switch (weatherMain.toLowerCase()) {
     case 'clear':
@@ -18,6 +19,6 @@ String getLottieAnimation(String weatherMain) {
     case 'wind':
       return 'assets/lottie/weather-windy.json';
     default:
-      return 'assets/lottie/weather-sunny.json'; // По умолчанию
+      return 'assets/lottie/weather-sunny.json'; 
   }
 }

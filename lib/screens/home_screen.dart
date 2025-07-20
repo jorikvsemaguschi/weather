@@ -8,9 +8,13 @@ import '../utils/weather_lottie.dart';
 import 'city_selector_screen.dart';
 import 'settings_screen.dart';
 import '../l10n/app_localizations.dart';
+import '../main.dart'; 
+
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  // initialCity может быть null, если город ещё не выбран
+  final String? initialCity;
+  const HomeScreen({super.key, this.initialCity});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -23,17 +27,24 @@ class _HomeScreenState extends State<HomeScreen> {
   List<DailyWeather>? _dailyForecast;
 
   bool _isLoading = false;
-  String _city = "Minsk";
+  String? _city;
 
+  // Контроллер для поля ввода города (не используется напрямую, но может пригодиться)
   final TextEditingController _controller = TextEditingController(
       text: "Minsk");
 
   @override
   void initState() {
     super.initState();
-    _fetchWeatherAndForecast(_city);
+    // Если город уже выбран, сразу загружаем погоду
+    _city = widget.initialCity;
+    if (_city != null && _city!.isNotEmpty) {
+      _controller.text = _city!;
+      _fetchWeatherAndForecast(_city!);
+    }
   }
 
+  // Загружает текущую погоду и прогноз на 7 дней для выбранного города
   Future<void> _fetchWeatherAndForecast(String cityName) async {
     setState(() {
       _isLoading = true;
@@ -47,6 +58,31 @@ class _HomeScreenState extends State<HomeScreen> {
         _dailyForecast = forecast;
         _city = cityName;
       });
+      // Сохраняем выбранный город в настройках приложения
+      final appState = MyApp.of(context);
+      if (appState != null) {
+        appState.saveLastCity(cityName);
+      }
+    } on WeatherServiceException catch (e) {
+      final loc = AppLocalizations.of(context)!;
+      String message;
+      switch (e.type) {
+        case 'cityNotFound':
+          message = loc.cityNotFound;
+          break;
+        case 'geocodingError':
+          message = loc.geocodingError(e.code ?? 0);
+          break;
+        case 'forecastError':
+          message = loc.forecastError(e.code ?? 0);
+          break;
+        case 'weatherError':
+          message = loc.weatherError(e.code ?? 0);
+          break;
+        default:
+          message = loc.error;
+      }
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('${AppLocalizations.of(context)!.error}: $e')),
@@ -58,6 +94,7 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
+  // Открывает экран выбора города
   void _openCitySelector() async {
     final selectedCity = await Navigator.push<String>(
       context,
@@ -69,9 +106,14 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
+  // Виджет отображения текущей погоды
   Widget _buildCurrentWeather() {
-    if (_weather == null) {
+    if (_city == null || _city!.isEmpty) {
+      // Если город не выбран, просим пользователя выбрать город
       return Text(AppLocalizations.of(context)!.enterCityPrompt);
+    }
+    if (_weather == null) {
+      return const SizedBox.shrink();
     }
 
     final screenHeight = MediaQuery.of(context).size.height;
@@ -80,7 +122,7 @@ class _HomeScreenState extends State<HomeScreen> {
       mainAxisSize: MainAxisSize.min,
       children: [
         SizedBox(
-          height: screenHeight * 0.2, // 20% от экрана
+          height: screenHeight * 0.2, 
           child: Lottie.asset(
             getLottieAnimation(_weather!.mainCondition),
           ),
@@ -101,14 +143,14 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-
+  // Виджет прогноза на 7 дней
   Widget _buildDailyForecast() {
     if (_dailyForecast == null) {
       return const SizedBox.shrink();
     }
 
     return Expanded(
-      key: Key(_city),
+      key: Key(_city!),
       child: ListView.separated(
         itemCount: _dailyForecast!.length,
         separatorBuilder: (_, __) => const Divider(),
@@ -146,6 +188,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  // Дополнительные детали о погоде (влажность, давление, ветер и т.д.)
   Widget _buildAdditionalWeatherDetails() {
     if (_weather == null) return const SizedBox.shrink();
 
@@ -178,6 +221,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  // Вспомогательный виджет для отображения одной характеристики
   Widget _infoColumn(String label, String value, IconData icon) {
     return Column(
       children: [
@@ -203,7 +247,7 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               const Icon(Icons.location_on),
               const SizedBox(width: 8),
-              Text(_city),
+              Text(_city ?? ''),
               const Icon(Icons.arrow_drop_down),
             ],
           ),

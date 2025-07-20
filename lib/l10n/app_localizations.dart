@@ -217,6 +217,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Feels like'**
   String get feelsLike;
+
+  /// No description provided for @darkTheme.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark theme'**
+  String get darkTheme;
+
+  /// No description provided for @unableToDetectLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to detect location'**
+  String get unableToDetectLocation;
+
+  /// No description provided for @cityNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'City not found'**
+  String get cityNotFound;
+
+  /// No description provided for @geocodingError.
+  ///
+  /// In en, this message translates to:
+  /// **'Geocoding error: {code}'**
+  String geocodingError(Object code);
+
+  /// No description provided for @forecastError.
+  ///
+  /// In en, this message translates to:
+  /// **'Forecast error: {code}'**
+  String forecastError(Object code);
+
+  /// No description provided for @weatherError.
+  ///
+  /// In en, this message translates to:
+  /// **'Weather error: {code}'**
+  String weatherError(Object code);
 }
 
 class _AppLocalizationsDelegate

@@ -19,6 +19,12 @@
   "pressure": "Pressure",
   "wind": "Wind",
   "cloudiness": "Cloudiness",
-  "feelsLike": "Feels like"
+  "feelsLike": "Feels like",
+  "darkTheme": "Dark theme",
+  "unableToDetectLocation": "Unable to detect location",
+  "cityNotFound": "City not found",
+  "geocodingError": "Geocoding error: {code}",
+  "forecastError": "Forecast error: {code}",
+  "weatherError": "Weather error: {code}"
 }
 

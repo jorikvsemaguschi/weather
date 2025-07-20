@@ -19,5 +19,11 @@
   "pressure": "Давление",
   "wind": "Ветер",
   "cloudiness": "Облачность",
-  "feelsLike": "Ощущается как"
+  "feelsLike": "Ощущается как",
+  "darkTheme": "Темная тема",
+  "unableToDetectLocation": "Не удалось определить местоположение",
+  "cityNotFound": "Город не найден",
+  "geocodingError": "Ошибка геокодинга: {code}",
+  "forecastError": "Ошибка получения прогноза: {code}",
+  "weatherError": "Ошибка получения погоды: {code}"
 }

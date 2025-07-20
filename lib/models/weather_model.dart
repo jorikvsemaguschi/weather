@@ -1,3 +1,4 @@
+// Модель текущей погоды
 class Weather {
   final String cityName;
   final double temperature;
@@ -19,6 +20,7 @@ class Weather {
     required this.feelsLike,
   });
 
+  // Создание объекта из JSON
   factory Weather.fromJson(Map<String, dynamic> json, String cityName) {
     final current = json['current'];
     return Weather(
@@ -34,11 +36,11 @@ class Weather {
   }
 }
 
-
+// Модель прогноза на день
 class DailyWeather {
-  final int dt; // время в unix timestamp
-  final double temperature; // средняя температура дня
-  final String mainCondition; // краткое описание погоды
+  final int dt; // Время (timestamp)
+  final double temperature; // Температура днем
+  final String mainCondition; // Основное погодное условие
 
   DailyWeather({
     required this.dt,
@@ -46,6 +48,7 @@ class DailyWeather {
     required this.mainCondition,
   });
 
+  // Создание объекта из JSON
   factory DailyWeather.fromJson(Map<String, dynamic> json) {
     return DailyWeather(
       dt: json['dt'],
